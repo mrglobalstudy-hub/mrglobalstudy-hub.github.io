@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="styles/style.css"/>
+  <title>Hello, World!</title>
+</head>
+<body>
+  <h1>
+    Hello, World!
+  </h1>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>M R Global Study</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <style>
+    body {font-family: Arial; margin: 0; padding: 0;}
+    header {background: #007BFF; color: white; padding: 20px; text-align: center;}
+    section {padding: 20px;}
+    .box {background: #f4f4f4; padding: 15px; margin: 10px 0; border-radius: 10px;}
+    .btn {display: inline-block; padding: 12px 18px; background: green; color: white; text-decoration: none; border-radius: 5px;}
+    footer {background: #007BFF; color: white; text-align: center; padding: 10px;}
+    .gallery img {width: 100%; max-width: 300px; margin: 10px; border-radius: 10px;}
+    .topper {background: #fff3cd; padding: 10px; margin: 10px 0; border-radius: 10px;}
+    input, select {width: 100%; padding: 10px; margin: 5px 0;}
+  </style>
+
+  <script>
+    function sendToWhatsApp() {
+      var name = document.getElementById("name").value;
+      var course = document.getElementById("course").value;
+
+      var message = "New Admission Inquiry:%0AName: " + name + "%0ACourse: " + course;
+      var url = "https://wa.me/919935638345?text=" + message;
+
+      window.open(url, "_blank");
+    }
+  </script>
+
+</head>
+
+<body>
+
+<header>
+  <h1>M R Global Study</h1>
+  <p>Class 1–12 | JEE | NEET | All Competitive Exams</p>
+</header>
+
+<section>
+  <h2>About Us</h2>
+  <p>हम Class 1 से 12 तक और JEE, NEET की तैयारी कराते हैं। Online और Offline दोनों सुविधा उपलब्ध है।</p>
+</section>
+
+<section>
+  <h2>Courses</h2>
+  <div class="box">Class 1 to 8</div>
+  <div class="box">Class 9 to 12</div>
+  <div class="box">JEE / NEET Preparation</div>
+</section>
+
+<section>
+  <h2>Top Results</h2>
+  <div class="topper">Rahul Kumar - 95%</div>
+  <div class="topper">Anjali Singh - 92%</div>
+</section>
+
+<section>
+  <h2>Gallery</h2>
+  <div class="gallery">
+    <img src="https://via.placeholder.com/300">
+    <img src="https://via.placeholder.com/300">
+  </div>
+</section>
+
+<section>
+  <h2>Demo Class Video</h2>
+
+  <iframe width="100%" height="200" src="https://www.youtube.com/embed/AAfmGTVbfBg"></iframe>
+
+  <br><br>
+
+  <a class="btn" href="https://wa.me/919935638345?text=I want to join M R Global Study" target="_blank">
+    Enroll Now
+  </a>
+</section>
+
+<section>
+  <h2>Admission Form</h2>
+  <input type="text" id="name" placeholder="Your Name">
+  <select id="course">
+    <option>Class 1-8</option>
+    <option>Class 9-12</option>
+    <option>JEE / NEET</option>
+  </select>
+  <button class="btn" onclick="sendToWhatsApp()">Apply Now</button>
+</section>
+
+<section>
+  <h2>Contact</h2>
+  <p>📍 Parasia No.2, Rasra, Ballia</p>
+  <p>📞 9935638345</p>
+</section>
+
+<footer>
+  <p>© 2026 M R Global Study</p>
+</footer>
+
+</body>
+</html>
