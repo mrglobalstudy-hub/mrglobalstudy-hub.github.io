@@ -2,81 +2,102 @@
 <html>
 <head>
 <title>MR Global Study</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
-<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-<!-- Razorpay -->
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
 <style>
-body {margin:0;font-family:Poppins;background:#f2f5f9;}
+body {margin:0;font-family:Poppins;background:#f4f6fb;}
 
+/* HEADER */
 .header {
-background:linear-gradient(135deg,#6a11cb,#2575fc);
-color:white;padding:20px;text-align:center;
+background:#5a4bff;
+color:white;
+padding:15px;
+text-align:center;
 }
 
-.card {
-background:white;margin:15px;padding:15px;
+/* CARD */
+.course {
+background:white;
+margin:10px;
+padding:15px;
 border-radius:15px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
 }
 
+/* BUTTON */
 .btn {
-background:linear-gradient(135deg,#00c853,#64dd17);
-color:white;padding:12px;border:none;
-border-radius:10px;width:100%;margin-top:10px;
+background:#5a4bff;
+color:white;
+padding:10px;
+border:none;
+border-radius:8px;
+width:100%;
+margin-top:8px;
 }
 
+/* INPUT */
 input {
-width:100%;padding:10px;margin:5px 0;
-border-radius:10px;border:1px solid #ccc;
+width:100%;
+padding:10px;
+margin:5px 0;
+border-radius:8px;
+border:1px solid #ccc;
 }
 
+/* VIDEO */
+.video {
+width:100%;
+border-radius:10px;
+}
+
+/* NAV */
 .nav {
-position:fixed;bottom:0;width:100%;
-background:white;display:flex;
+position:fixed;
+bottom:0;
+width:100%;
+background:white;
+display:flex;
 justify-content:space-around;
 padding:10px;
 box-shadow:0 -3px 10px rgba(0,0,0,0.1);
 }
 </style>
-
 </head>
 
 <body>
 
 <div class="header">
 <h2>MR Global Study</h2>
-<p>Learn Smart 📚</p>
 </div>
 
 <!-- LOGIN -->
-<div class="card" id="login">
-<h3>Login / Signup</h3>
-<input type="email" id="email" placeholder="Email">
-<input type="password" id="password" placeholder="Password">
+<div id="login" style="padding:15px;">
+<h3>Login</h3>
+<input id="email" placeholder="Email">
+<input id="password" placeholder="Password">
 <button class="btn" onclick="signup()">Signup</button>
 <button class="btn" onclick="login()">Login</button>
 </div>
 
 <!-- DASHBOARD -->
 <div id="dashboard" style="display:none;">
-<div class="card">
-<h3>Your Courses</h3>
+
+<div style="padding:10px;">
+<h3>Courses</h3>
 <div id="courses"></div>
 <button class="btn" onclick="logout()">Logout</button>
 </div>
+
 </div>
 
-<!-- ADMIN PANEL -->
-<div id="admin" class="card" style="display:none;">
+<!-- ADMIN -->
+<div id="admin" style="display:none; padding:10px;">
 <h3>Admin Panel</h3>
 
 <input id="title" placeholder="Course Title">
@@ -86,7 +107,6 @@ box-shadow:0 -3px 10px rgba(0,0,0,0.1);
 <button class="btn" onclick="addCourse()">Upload Course</button>
 </div>
 
-<!-- NAVIGATION -->
 <div class="nav">
 <div>🏠</div>
 <div>📚</div>
@@ -95,7 +115,7 @@ box-shadow:0 -3px 10px rgba(0,0,0,0.1);
 
 <script>
 
-// 🔥 FIREBASE CONFIG (APNA DALNA HAI)
+// 🔥 Firebase config
 const firebaseConfig = {
 apiKey: "YOUR_API_KEY",
 authDomain: "YOUR_PROJECT.firebaseapp.com",
@@ -109,8 +129,8 @@ const db = firebase.firestore();
 // SIGNUP
 function signup(){
 auth.createUserWithEmailAndPassword(email.value,password.value)
-.then(()=>alert("Signup Success"))
-.catch(err=>alert(err.message));
+.then(()=>alert("Signup Done"))
+.catch(alert);
 }
 
 // LOGIN
@@ -121,12 +141,11 @@ login.style.display="none";
 dashboard.style.display="block";
 loadCourses();
 
-// Admin access
 if(email.value=="admin@gmail.com"){
 admin.style.display="block";
 }
 })
-.catch(err=>alert(err.message));
+.catch(alert);
 }
 
 // LOGOUT
@@ -135,62 +154,43 @@ auth.signOut();
 location.reload();
 }
 
-// ADD COURSE (ADMIN)
+// ADD COURSE
 function addCourse(){
 db.collection("courses").add({
 title:title.value,
 video:video.value,
 notes:notes.value
 });
-alert("Course Uploaded ✅");
+alert("Course Added");
 }
 
-// LOAD COURSES (REAL-TIME)
+// LOAD COURSES
 function loadCourses(){
-db.collection("courses").onSnapshot((snapshot)=>{
+db.collection("courses").onSnapshot((snap)=>{
 courses.innerHTML="";
 
-snapshot.forEach((doc)=>{
+snap.forEach(doc=>{
 let d = doc.data();
 
 courses.innerHTML += `
-<div class="card">
+<div class="course">
 <h4>${d.title}</h4>
 
-<iframe width="100%" height="180" src="${d.video}" frameborder="0"></iframe>
+<iframe class="video" height="200" src="${d.video}"></iframe>
 
-<br><br>
+<a href="${d.notes}" target="_blank">📄 Notes</a>
 
-<a href="${d.notes}" target="_blank">📄 Download Notes</a>
+<button class="btn">Buy Course ₹199</button>
 
-<button class="btn" onclick="payNow()">Buy Course ₹199</button>
+<a href="https://wa.me/919935638345">💬 Doubt</a>
 
-<br><br>
-
-<a href="https://wa.me/919935638345">💬 Ask Doubt</a>
 </div>
 `;
 });
 });
 }
 
-// PAYMENT (RAZORPAY)
-function payNow(){
-var options = {
-"key": "rzp_test_xxxxxxxx",
-"amount": 19900,
-"currency": "INR",
-"name": "MR Global Study",
-"description": "Course Payment",
-"handler": function (){
-alert("Payment Successful ✅");
-}
-};
-var rzp = new Razorpay(options);
-rzp.open();
-}
-
 </script>
 
 </body>
-</html>
+  </html>
