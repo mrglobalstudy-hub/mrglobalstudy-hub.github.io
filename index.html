@@ -16,7 +16,7 @@ text-align:center;
 
 .notice {
 background:yellow;
-padding:10px;
+padding:8px;
 text-align:center;
 font-weight:bold;
 }
@@ -29,7 +29,7 @@ color:white;
 padding:12px;
 margin:8px 0;
 cursor:pointer;
-border-radius:10px;
+border-radius:8px;
 font-weight:bold;
 }
 
@@ -43,24 +43,7 @@ border-radius:10px;
 margin-bottom:10px;
 }
 
-.subject {
-margin:10px 0;
-padding:10px;
-background:#f1f1f1;
-border-radius:8px;
-}
-
-.subject b {
-display:block;
-margin-bottom:5px;
-}
-
-.subject a {
-margin-right:10px;
-color:#007BFF;
-text-decoration:none;
-font-weight:bold;
-}
+.subject {margin:6px 0;}
 
 .topper {
 background:#fff3cd;
@@ -73,6 +56,8 @@ input, select, textarea {
 width:100%;
 padding:10px;
 margin:5px 0;
+border-radius:5px;
+border:1px solid #ccc;
 }
 
 .btn {
@@ -101,37 +86,73 @@ padding:10px;
 
 <div class="notice">🎓 Admission Open from 1 April</div>
 
+<!-- COURSES -->
 <section>
 <h2>Courses</h2>
 
 <div class="accordion">Class 1 to 8</div>
-<div class="panel" id="class1to8"></div>
+<div class="panel">
+<script>
+for(let i=1;i<=8;i++){
+document.write(`
+<div class="accordion sub">Class ${i}</div>
+<div class="panel">
+
+<div class="subject">Hindi</div>
+<div class="subject">English</div>
+<div class="subject">Math</div>
+<div class="subject">Science</div>
+<div class="subject">Computer</div>
+
+</div>
+`);
+}
+</script>
+</div>
 
 <div class="accordion">Class 9 to 12</div>
-<div class="panel" id="class9to12"></div>
+<div class="panel">
+<script>
+for(let i=9;i<=12;i++){
+document.write(`
+<div class="accordion sub">Class ${i}</div>
+<div class="panel">
+
+<div class="subject">Math</div>
+<div class="subject">Physics</div>
+<div class="subject">Chemistry</div>
+<div class="subject">Biology</div>
+
+</div>
+`);
+}
+</script>
+</div>
 
 <div class="accordion">JEE Preparation</div>
 <div class="panel">
-<div class="subject"><b>Math</b> <a href="#">Notes</a> <a href="#">Video</a> <a href="#">Test</a> <a href="#">Doubt</a></div>
-<div class="subject"><b>Physics</b> <a href="#">Notes</a> <a href="#">Video</a> <a href="#">Test</a> <a href="#">Doubt</a></div>
-<div class="subject"><b>Chemistry</b> <a href="#">Notes</a> <a href="#">Video</a> <a href="#">Test</a> <a href="#">Doubt</a></div>
+<div class="subject">Math</div>
+<div class="subject">Physics</div>
+<div class="subject">Chemistry</div>
 </div>
 
 <div class="accordion">NEET Preparation</div>
 <div class="panel">
-<div class="subject"><b>Biology</b> <a href="#">Notes</a> <a href="#">Video</a> <a href="#">Test</a> <a href="#">Doubt</a></div>
-<div class="subject"><b>Physics</b> <a href="#">Notes</a> <a href="#">Video</a> <a href="#">Test</a> <a href="#">Doubt</a></div>
-<div class="subject"><b>Chemistry</b> <a href="#">Notes</a> <a href="#">Video</a> <a href="#">Test</a> <a href="#">Doubt</a></div>
+<div class="subject">Biology</div>
+<div class="subject">Physics</div>
+<div class="subject">Chemistry</div>
 </div>
 
 </section>
 
+<!-- RESULTS -->
 <section>
 <h2>Top Results</h2>
 <div class="topper">Rahul Kumar - 95%</div>
 <div class="topper">Anjali Singh - 92%</div>
 </section>
 
+<!-- VIDEO -->
 <section>
 <h2>Demo Class Video</h2>
 <iframe width="100%" height="200"
@@ -139,17 +160,22 @@ src="https://www.youtube.com/embed/AAfmGTVbfBg"
 frameborder="0" allowfullscreen></iframe>
 </section>
 
+<!-- FORM -->
 <section>
 <h2>Admission Form</h2>
 
 <input type="text" id="name" placeholder="Student Name">
 <input type="text" id="father" placeholder="Father Name">
 <input type="text" id="mother" placeholder="Mother Name">
+
+<label><b>Date of Birth</b></label>
 <input type="date" id="dob">
+
 <input type="number" id="mobile" placeholder="Mobile Number">
 
+<label><b>Classes</b></label>
 <select id="course">
-<option disabled selected>Select Classes</option>
+<option>Select Class</option>
 <option>Class 1</option>
 <option>Class 2</option>
 <option>Class 3</option>
@@ -172,68 +198,38 @@ frameborder="0" allowfullscreen></iframe>
 
 </section>
 
+<!-- CONTACT -->
 <section>
 <h2>Contact</h2>
 <p>📍 Parasia No.2, Rasra, Ballia</p>
 <p>📞 9935638345</p>
 </section>
 
+<!-- PHOTO -->
+<div style="text-align:center; padding:10px;">
+<img src="photo.jpg" style="width:120px; border-radius:50%;">
+<p><b>Director - M R Global Study</b></p>
+</div>
+
 <footer>
 <p>© 2026 M R Global Study</p>
 </footer>
 
+<!-- WhatsApp -->
 <a href="https://wa.me/919935638345" target="_blank"
 style="position:fixed; bottom:20px; right:20px; background:green; color:white; padding:15px; border-radius:50%;">
 💬
 </a>
 
 <script>
-
-// Generate Class 1–8
-let c1 = document.getElementById("class1to8");
-for(let i=1;i<=8;i++){
-c1.innerHTML += `
-<div class="accordion sub">Class ${i}</div>
-<div class="panel">
-${createSubjects(["Hindi","English","Math","Science","Computer"])}
-</div>`;
-}
-
-// Generate Class 9–12
-let c2 = document.getElementById("class9to12");
-for(let i=9;i<=12;i++){
-c2.innerHTML += `
-<div class="accordion sub">Class ${i}</div>
-<div class="panel">
-${createSubjects(["Math","Physics","Chemistry","Biology"])}
-</div>`;
-}
-
-// Subject template
-function createSubjects(subjects){
-let html = "";
-subjects.forEach(sub=>{
-html += `
-<div class="subject">
-<b>${sub}</b>
-<a href="#">Notes</a>
-<a href="#">Video</a>
-<a href="#">Test</a>
-<a href="#">Doubt</a>
-</div>`;
-});
-return html;
-}
-
-// Accordion fix
-document.addEventListener("click", function(e){
-if(e.target.classList.contains("accordion")){
-let panel = e.target.nextElementSibling;
+var acc = document.getElementsByClassName("accordion");
+for (var i = 0; i < acc.length; i++) {
+acc[i].onclick = function () {
+var panel = this.nextElementSibling;
 panel.style.display = panel.style.display === "block" ? "none" : "block";
+};
 }
-});
 
-// WhatsApp
 function sendToWhatsApp() {
 var name = document.getElementById("name").value;
 var father = document.getElementById("father").value;
@@ -254,7 +250,6 @@ var message = "NEW ADMISSION:%0A"
 
 window.open("https://wa.me/919935638345?text=" + message);
 }
-
 </script>
 
 </body>
