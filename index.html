@@ -4,69 +4,21 @@
 <title>MR Global Study</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <style>
-body {margin:0;font-family:Poppins;background:#f4f6fb;}
-
-/* HEADER */
-.header {
-background:#5a4bff;
-color:white;
-padding:15px;
-text-align:center;
-}
-
-/* CARD */
-.course {
-background:white;
-margin:10px;
-padding:15px;
-border-radius:15px;
-box-shadow:0 4px 12px rgba(0,0,0,0.1);
-}
-
-/* BUTTON */
-.btn {
-background:#5a4bff;
-color:white;
-padding:10px;
-border:none;
-border-radius:8px;
-width:100%;
-margin-top:8px;
-}
-
-/* INPUT */
-input {
-width:100%;
-padding:10px;
-margin:5px 0;
-border-radius:8px;
-border:1px solid #ccc;
-}
-
-/* VIDEO */
-.video {
-width:100%;
-border-radius:10px;
-}
-
-/* NAV */
-.nav {
-position:fixed;
-bottom:0;
-width:100%;
-background:white;
-display:flex;
-justify-content:space-around;
-padding:10px;
-box-shadow:0 -3px 10px rgba(0,0,0,0.1);
-}
+body{margin:0;font-family:Arial;background:#f5f5f5}
+.header{background:linear-gradient(45deg,#6a11cb,#2575fc);color:white;padding:15px;text-align:center}
+.container{padding:15px}
+input{width:100%;padding:10px;margin:5px 0;border-radius:8px;border:1px solid #ccc}
+button{width:100%;padding:10px;margin:5px 0;border:none;border-radius:8px;background:#6a11cb;color:white}
+.card{background:white;padding:10px;margin:10px 0;border-radius:10px}
+.video{width:100%;border-radius:10px}
+.nav{position:fixed;bottom:0;width:100%;background:white;display:flex;justify-content:space-around;padding:10px}
+.hidden{display:none}
 </style>
 </head>
 
@@ -76,81 +28,69 @@ box-shadow:0 -3px 10px rgba(0,0,0,0.1);
 <h2>MR Global Study</h2>
 </div>
 
+<div class="container">
+
 <!-- LOGIN -->
-<div id="login" style="padding:15px;">
-<h3>Login</h3>
-<input id="email" placeholder="Email">
-<input id="password" placeholder="Password">
-<button class="btn" onclick="signup()">Signup</button>
-<button class="btn" onclick="login()">Login</button>
+<div id="loginBox">
+<h3>Login / Signup</h3>
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
+<button onclick="signup()">Signup</button>
+<button onclick="login()">Login</button>
 </div>
 
 <!-- DASHBOARD -->
-<div id="dashboard" style="display:none;">
-
-<div style="padding:10px;">
+<div id="dashboard" class="hidden">
 <h3>Courses</h3>
-<div id="courses"></div>
-<button class="btn" onclick="logout()">Logout</button>
+<div id="courseList"></div>
 </div>
 
-</div>
-
-<!-- ADMIN -->
-<div id="admin" style="display:none; padding:10px;">
+<!-- ADMIN PANEL -->
+<div id="adminPanel" class="hidden">
 <h3>Admin Panel</h3>
-
-<input id="title" placeholder="Course Title">
-<input id="video" placeholder="YouTube Embed Link">
-<input id="notes" placeholder="PDF Link">
-
-<button class="btn" onclick="addCourse()">Upload Course</button>
+<input id="courseTitle" placeholder="Course Title">
+<input id="videoURL" placeholder="Video URL">
+<button onclick="addCourse()">Upload Course</button>
 </div>
 
-<div class="nav">
-<div>🏠</div>
-<div>📚</div>
-<div>👤</div>
+</div>
+
+<!-- NAVBAR -->
+<div class="nav hidden" id="navbar">
+<button onclick="showDashboard()">🏠</button>
+<button onclick="showAdmin()">⚙️</button>
+<button onclick="logout()">🚪</button>
 </div>
 
 <script>
 
-// 🔥 Firebase config
+// 🔥 FIREBASE CONFIG (TERA)
 const firebaseConfig = {
   apiKey: "AIzaSyBRTiJBNkxZHb3DvJLpsyFpJDFhFN-p3w",
   authDomain: "mr-global-study.firebaseapp.com",
   projectId: "mr-global-study",
-  storageBucket: "mr-global-study.firebasestorage.app",
-  messagingSenderId: "313129965677",
-  appId: "1:313129965677:web:67ee618116f7bdf3c10764",
-  measurementId: "G-W0ZZ0X4RE4"
 };
 
-firebase.initializeApp(firebaseConfig);
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
 // SIGNUP
 function signup(){
-auth.createUserWithEmailAndPassword(email.value,password.value)
-.then(()=>alert("Signup Done"))
-.catch(alert);
+auth.createUserWithEmailAndPassword(
+email.value, password.value
+)
+.then(()=>alert("Signup Success"))
+.catch(e=>alert(e.message));
 }
 
 // LOGIN
 function login(){
-auth.signInWithEmailAndPassword(email.value,password.value)
-.then(()=>{
-login.style.display="none";
-dashboard.style.display="block";
-loadCourses();
-
-if(email.value=="admin@gmail.com"){
-admin.style.display="block";
-}
-})
-.catch(alert);
+auth.signInWithEmailAndPassword(
+email.value, password.value
+)
+.then(()=>initApp())
+.catch(e=>alert(e.message));
 }
 
 // LOGOUT
@@ -159,43 +99,58 @@ auth.signOut();
 location.reload();
 }
 
-// ADD COURSE
+// INIT AFTER LOGIN
+function initApp(){
+document.getElementById("loginBox").classList.add("hidden");
+document.getElementById("dashboard").classList.remove("hidden");
+document.getElementById("navbar").classList.remove("hidden");
+
+loadCourses();
+
+// ADMIN CHECK
+if(email.value=="admin@gmail.com"){
+document.getElementById("adminPanel").classList.remove("hidden");
+}
+}
+
+// ADD COURSE (ADMIN)
 function addCourse(){
 db.collection("courses").add({
-title:title.value,
-video:video.value,
-notes:notes.value
+title: courseTitle.value,
+video: videoURL.value
 });
 alert("Course Added");
 }
 
 // LOAD COURSES
 function loadCourses(){
-db.collection("courses").onSnapshot((snap)=>{
-courses.innerHTML="";
-
-snap.forEach(doc=>{
-let d = doc.data();
-
-courses.innerHTML += `
-<div class="course">
-<h4>${d.title}</h4>
-
-<iframe class="video" height="200" src="${d.video}"></iframe>
-
-<a href="${d.notes}" target="_blank">📄 Notes</a>
-
-<button class="btn">Buy Course ₹199</button>
-
-<a href="https://wa.me/919935638345">💬 Doubt</a>
-
+db.collection("courses").get().then(snapshot=>{
+let html="";
+snapshot.forEach(doc=>{
+let c=doc.data();
+html+=`
+<div class="card">
+<h4>${c.title}</h4>
+<video class="video" controls src="${c.video}"></video>
 </div>
 `;
 });
+document.getElementById("courseList").innerHTML=html;
 });
+}
+
+// NAVIGATION
+function showDashboard(){
+document.getElementById("dashboard").classList.remove("hidden");
+document.getElementById("adminPanel").classList.add("hidden");
+}
+
+function showAdmin(){
+document.getElementById("dashboard").classList.add("hidden");
+document.getElementById("adminPanel").classList.remove("hidden");
 }
 
 </script>
 
 </body>
-  </html>
+</html>
