@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,8 +42,32 @@ button{width:100%;padding:10px;margin:5px 0;border:none;border-radius:8px;backgr
 
 <!-- DASHBOARD -->
 <div id="dashboard" class="hidden">
-<h3>Courses</h3>
+<h3>📚 Classes</h3>
+
+<!-- DEFAULT COURSES -->
+<div class="card">
+<h4>Class 1–5 Basic</h4>
+<video class="video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+</div>
+
+<div class="card">
+<h4>Class 6–8 Foundation</h4>
+<video class="video" controls src="https://www.w3schools.com/html/movie.mp4"></video>
+</div>
+
+<div class="card">
+<h4>Class 9–10 Maths</h4>
+<video class="video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+</div>
+
+<div class="card">
+<h4>Class 11–12 Science</h4>
+<video class="video" controls src="https://www.w3schools.com/html/movie.mp4"></video>
+</div>
+
+<h3>🔥 Uploaded Courses</h3>
 <div id="courseList"></div>
+
 </div>
 
 <!-- ADMIN PANEL -->
@@ -64,7 +89,6 @@ button{width:100%;padding:10px;margin:5px 0;border:none;border-radius:8px;backgr
 
 <script>
 
-// 🔥 FIREBASE CONFIG (TERA)
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBRTi1JBNkxZHb3DvJLpsyFpJDFhFN-p3w",
@@ -82,18 +106,14 @@ const db = firebase.firestore();
 
 // SIGNUP
 function signup(){
-auth.createUserWithEmailAndPassword(
-email.value, password.value
-)
-.then(()=>alert("Signup Success"))
+auth.createUserWithEmailAndPassword(email.value, password.value)
+.then(()=>alert("Signup Success ✅"))
 .catch(e=>alert(e.message));
 }
 
 // LOGIN
 function login(){
-auth.signInWithEmailAndPassword(
-email.value, password.value
-)
+auth.signInWithEmailAndPassword(email.value, password.value)
 .then(()=>initApp())
 .catch(e=>alert(e.message));
 }
@@ -104,7 +124,7 @@ auth.signOut();
 location.reload();
 }
 
-// INIT AFTER LOGIN
+// AFTER LOGIN
 function initApp(){
 document.getElementById("loginBox").classList.add("hidden");
 document.getElementById("dashboard").classList.remove("hidden");
@@ -118,13 +138,13 @@ document.getElementById("adminPanel").classList.remove("hidden");
 }
 }
 
-// ADD COURSE (ADMIN)
+// ADD COURSE
 function addCourse(){
 db.collection("courses").add({
 title: courseTitle.value,
 video: videoURL.value
 });
-alert("Course Added");
+alert("Course Uploaded ✅");
 }
 
 // LOAD COURSES
