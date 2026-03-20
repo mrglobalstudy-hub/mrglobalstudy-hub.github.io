@@ -2,178 +2,187 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>M R Global Study</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M R Global Study</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {font-family: Arial; margin: 0; padding: 0; background:#f5f5f5;}
+<style>
+body {font-family: Arial; margin:0; background:#f5f5f5;}
 
-    header {
-      background: #007BFF;
-      color: white;
-      padding: 15px;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
+header {
+background:#007BFF;
+color:white;
+padding:15px;
+text-align:center;
+position:sticky;
+top:0;
+z-index:1000;
+}
 
-    section {padding: 20px;}
+section {padding:20px;}
 
-    .accordion {
-      background: #007BFF;
-      color: white;
-      padding: 12px;
-      margin: 8px 0;
-      cursor: pointer;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: 0.3s;
-    }
+.accordion {
+background:#007BFF;
+color:white;
+padding:12px;
+margin:8px 0;
+cursor:pointer;
+border-radius:8px;
+font-weight:bold;
+}
 
-    .accordion:hover {background: #0056b3;}
+.sub {background:#28a745;}
 
-    .sub {
-      background: #28a745;
-      margin-left: 10px;
-    }
+.panel {
+display:none;
+background:white;
+padding:10px;
+border-radius:10px;
+margin-bottom:10px;
+}
 
-    .panel {
-      display: none;
-      padding: 10px;
-      background: white;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
+.subject {margin:10px 0;}
 
-    .topper {
-      background: #fff3cd;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 10px;
-    }
+.topper {
+background:#fff3cd;
+padding:10px;
+margin:10px 0;
+border-radius:10px;
+}
 
-    .btn {
-      display: inline-block;
-      padding: 10px 15px;
-      background: green;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-    }
+.btn {
+background:green;
+color:white;
+padding:10px;
+border:none;
+border-radius:5px;
+}
 
-    a {color:#007BFF; font-weight:bold;}
-    a:hover {color:red;}
-
-    footer {
-      background: #007BFF;
-      color: white;
-      text-align: center;
-      padding: 10px;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 10px;
-      margin: 5px 0;
-    }
-  </style>
-
+footer {
+background:#007BFF;
+color:white;
+text-align:center;
+padding:10px;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>M R Global Study</h1>
-  <p>Class 1–12 | JEE | NEET | All Competitive Exams</p>
+<h1>M R Global Study</h1>
+<p>Class 1–12 | JEE | NEET | All Competitive Exams</p>
 </header>
 
 <section>
-  <h2>About Us</h2>
-  <p>हम Class 1 से 12 तक और JEE, NEET की तैयारी कराते हैं। Online और Offline दोनों सुविधा उपलब्ध है।</p>
+<h2>Courses</h2>
+
+<!-- CLASS 1 TO 8 -->
+<div class="accordion">Class 1 to 8</div>
+<div class="panel">
+
+<script>
+for(let i=1;i<=8;i++){
+document.write(`
+<div class="accordion sub">Class ${i}</div>
+<div class="panel">
+
+<div class="subject">📘 Hindi - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+<div class="subject">📗 English - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+<div class="subject">📙 Math - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+<div class="subject">📕 Science - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+<div class="subject">📓 Social Science - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+<div class="subject">📔 Grammar - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+<div class="subject">📒 History - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+<div class="subject">💻 Computer - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+<div class="subject">📚 G.K - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+
+</div>
+`);
+}
+</script>
+
+</div>
+
+<!-- CLASS 9 TO 12 -->
+<div class="accordion">Class 9 to 12 (NCERT)</div>
+<div class="panel">
+
+<script>
+for(let i=9;i<=12;i++){
+document.write(`
+<div class="accordion sub">Class ${i}</div>
+<div class="panel">
+
+<div class="subject">📘 Math - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+<div class="subject">📕 Physics - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+<div class="subject">📗 Chemistry - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+<div class="subject">📒 Biology - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+
+</div>
+`);
+}
+</script>
+
+</div>
+
+<!-- JEE -->
+<div class="accordion">JEE Preparation</div>
+<div class="panel">
+
+<div class="subject">📘 Math - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+<div class="subject">📕 Physics - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+<div class="subject">📗 Chemistry - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+
+</div>
+
+<!-- NEET -->
+<div class="accordion">NEET Preparation</div>
+<div class="panel">
+
+<div class="subject">📒 Biology - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+<div class="subject">📕 Physics - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+<div class="subject">📗 Chemistry - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+
+</div>
+
 </section>
 
 <section>
-  <h2>Courses</h2>
-
-  <div class="accordion">Class 1 to 8</div>
-  <div class="panel">
-
-    <div class="accordion sub">Class 1</div>
-    <div class="panel">
-      <p>📘 Math <br><a href="#">📥 Notes</a> | <a href="#">🎥 Video</a> | <a href="#">📝 Test</a></p>
-      <p>📗 English <br><a href="#">📥 Notes</a> | <a href="#">🎥 Video</a> | <a href="#">📝 Test</a></p>
-    </div>
-
-    <div class="accordion sub">Class 2</div>
-    <div class="panel">
-      <p>📘 Math <br><a href="#">📥 Notes</a> | <a href="#">🎥 Video</a> | <a href="#">📝 Test</a></p>
-      <p>📗 English <br><a href="#">📥 Notes</a> | <a href="#">🎥 Video</a> | <a href="#">📝 Test</a></p>
-    </div>
-
-  </div>
-
-  <div class="accordion">Class 9 to 12</div>
-  <div class="panel">
-    <p>📘 Math <br><a href="#">📥 Notes</a> | <a href="#">🎥 Video</a> | <a href="#">📝 Test</a></p>
-    <p>📕 Physics <br><a href="#">📥 Notes</a> | <a href="#">🎥 Video</a> | <a href="#">📝 Test</a></p>
-  </div>
-
+<h2>Top Results</h2>
+<div class="topper">Rahul Kumar - 95%</div>
+<div class="topper">Anjali Singh - 92%</div>
 </section>
 
 <section>
-  <h2>Top Results</h2>
-  <div class="topper">Rahul Kumar - 95%</div>
-  <div class="topper">Anjali Singh - 92%</div>
+<h2>Demo Class Video</h2>
+<iframe width="100%" height="200"
+src="https://www.youtube.com/embed/AAfmGTVbfBg"
+frameborder="0" allowfullscreen></iframe>
 </section>
 
 <section>
-  <h2>Demo Class Video</h2>
-  <iframe width="100%" height="200"
-  src="https://www.youtube.com/embed/AAfmGTVbfBg"
-  frameborder="0" allowfullscreen></iframe>
-</section>
-
-<section>
-  <h2>Admission Form</h2>
-  <input type="text" id="name" placeholder="Your Name">
-  <select id="course">
-    <option>Class 1-8</option>
-    <option>Class 9-12</option>
-  </select>
-  <button class="btn" onclick="sendToWhatsApp()">Apply Now</button>
-</section>
-
-<section>
-  <h2>Contact</h2>
-  <p>📍 Parasia No.2, Rasra, Ballia</p>
-  <p>📞 9935638345</p>
+<h2>Contact</h2>
+<p>📍 Parasia No.2, Rasra, Ballia</p>
+<p>📞 9935638345</p>
 </section>
 
 <footer>
-  <p>© 2026 M R Global Study</p>
+<p>© 2026 M R Global Study</p>
 </footer>
 
 <!-- WhatsApp Button -->
 <a href="https://wa.me/919935638345" target="_blank"
-style="position:fixed; bottom:20px; right:20px; background:green; color:white; padding:15px; border-radius:50%; text-decoration:none;">
+style="position:fixed; bottom:20px; right:20px; background:green; color:white; padding:15px; border-radius:50%;">
 💬
 </a>
 
 <script>
-function sendToWhatsApp() {
-  var name = document.getElementById("name").value;
-  var course = document.getElementById("course").value;
-  var message = "New Admission:%0AName: " + name + "%0ACourse: " + course;
-  window.open("https://wa.me/919935638345?text=" + message);
-}
-
 var acc = document.getElementsByClassName("accordion");
 for (var i = 0; i < acc.length; i++) {
-  acc[i].onclick = function () {
-    var panel = this.nextElementSibling;
-    panel.style.display = panel.style.display === "block" ? "none" : "block";
-  };
+acc[i].onclick = function () {
+var panel = this.nextElementSibling;
+panel.style.display = panel.style.display === "block" ? "none" : "block";
+};
 }
 </script>
 
