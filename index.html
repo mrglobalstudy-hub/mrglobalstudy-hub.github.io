@@ -16,7 +16,7 @@ text-align:center;
 
 .notice {
 background:yellow;
-padding:8px;
+padding:10px;
 text-align:center;
 font-weight:bold;
 }
@@ -29,7 +29,7 @@ color:white;
 padding:12px;
 margin:8px 0;
 cursor:pointer;
-border-radius:8px;
+border-radius:10px;
 font-weight:bold;
 }
 
@@ -43,7 +43,19 @@ border-radius:10px;
 margin-bottom:10px;
 }
 
-.subject {margin:6px 0;}
+.subject {
+margin:10px 0;
+padding:8px;
+background:#f1f1f1;
+border-radius:8px;
+}
+
+.subject a {
+margin:0 5px;
+text-decoration:none;
+color:#007BFF;
+font-weight:bold;
+}
 
 .topper {
 background:#fff3cd;
@@ -56,8 +68,6 @@ input, select, textarea {
 width:100%;
 padding:10px;
 margin:5px 0;
-border-radius:5px;
-border:1px solid #ccc;
 }
 
 .btn {
@@ -86,73 +96,126 @@ padding:10px;
 
 <div class="notice">🎓 Admission Open from 1 April</div>
 
-<!-- COURSES -->
 <section>
 <h2>Courses</h2>
 
 <div class="accordion">Class 1 to 8</div>
 <div class="panel">
+
 <script>
 for(let i=1;i<=8;i++){
 document.write(`
 <div class="accordion sub">Class ${i}</div>
 <div class="panel">
 
-<div class="subject">Hindi</div>
-<div class="subject">English</div>
-<div class="subject">Math</div>
-<div class="subject">Science</div>
-<div class="subject">Computer</div>
+<div class="subject">Hindi -
+<a href="#">Notes</a> |
+<a href="#">Video</a> |
+<a href="#">Test</a> |
+<a href="#">Doubt</a>
+</div>
+
+<div class="subject">English -
+<a href="#">Notes</a> |
+<a href="#">Video</a> |
+<a href="#">Test</a> |
+<a href="#">Doubt</a>
+</div>
+
+<div class="subject">Math -
+<a href="#">Notes</a> |
+<a href="#">Video</a> |
+<a href="#">Test</a> |
+<a href="#">Doubt</a>
+</div>
+
+<div class="subject">Science -
+<a href="#">Notes</a> |
+<a href="#">Video</a> |
+<a href="#">Test</a> |
+<a href="#">Doubt</a>
+</div>
+
+<div class="subject">Computer -
+<a href="#">Notes</a> |
+<a href="#">Video</a> |
+<a href="#">Test</a> |
+<a href="#">Doubt</a>
+</div>
 
 </div>
 `);
 }
 </script>
+
 </div>
 
 <div class="accordion">Class 9 to 12</div>
 <div class="panel">
+
 <script>
 for(let i=9;i<=12;i++){
 document.write(`
 <div class="accordion sub">Class ${i}</div>
 <div class="panel">
 
-<div class="subject">Math</div>
-<div class="subject">Physics</div>
-<div class="subject">Chemistry</div>
-<div class="subject">Biology</div>
+<div class="subject">Math -
+<a href="#">Notes</a> |
+<a href="#">Video</a> |
+<a href="#">Test</a> |
+<a href="#">Doubt</a>
+</div>
+
+<div class="subject">Physics -
+<a href="#">Notes</a> |
+<a href="#">Video</a> |
+<a href="#">Test</a> |
+<a href="#">Doubt</a>
+</div>
+
+<div class="subject">Chemistry -
+<a href="#">Notes</a> |
+<a href="#">Video</a> |
+<a href="#">Test</a> |
+<a href="#">Doubt</a>
+</div>
+
+<div class="subject">Biology -
+<a href="#">Notes</a> |
+<a href="#">Video</a> |
+<a href="#">Test</a> |
+<a href="#">Doubt</a>
+</div>
 
 </div>
 `);
 }
 </script>
+
 </div>
 
 <div class="accordion">JEE Preparation</div>
 <div class="panel">
-<div class="subject">Math</div>
-<div class="subject">Physics</div>
-<div class="subject">Chemistry</div>
+<div class="subject">Math | Video | Notes | Test | Doubt</div>
+<div class="subject">Physics | Video | Notes | Test | Doubt</div>
+<div class="subject">Chemistry | Video | Notes | Test | Doubt</div>
 </div>
 
 <div class="accordion">NEET Preparation</div>
 <div class="panel">
-<div class="subject">Biology</div>
-<div class="subject">Physics</div>
-<div class="subject">Chemistry</div>
+<div class="subject">Biology | Video | Notes | Test | Doubt</div>
+<div class="subject">Physics | Video | Notes | Test | Doubt</div>
+<div class="subject">Chemistry | Video | Notes | Test | Doubt</div>
 </div>
 
 </section>
 
-<!-- RESULTS -->
 <section>
 <h2>Top Results</h2>
 <div class="topper">Rahul Kumar - 95%</div>
 <div class="topper">Anjali Singh - 92%</div>
 </section>
 
-<!-- VIDEO -->
 <section>
 <h2>Demo Class Video</h2>
 <iframe width="100%" height="200"
@@ -160,22 +223,17 @@ src="https://www.youtube.com/embed/AAfmGTVbfBg"
 frameborder="0" allowfullscreen></iframe>
 </section>
 
-<!-- FORM -->
 <section>
 <h2>Admission Form</h2>
 
 <input type="text" id="name" placeholder="Student Name">
 <input type="text" id="father" placeholder="Father Name">
 <input type="text" id="mother" placeholder="Mother Name">
-
-<label><b>Date of Birth</b></label>
 <input type="date" id="dob">
-
 <input type="number" id="mobile" placeholder="Mobile Number">
 
-<label><b>Classes</b></label>
 <select id="course">
-<option>Select Class</option>
+<option disabled selected>Select Class</option>
 <option>Class 1</option>
 <option>Class 2</option>
 <option>Class 3</option>
@@ -198,14 +256,12 @@ frameborder="0" allowfullscreen></iframe>
 
 </section>
 
-<!-- CONTACT -->
 <section>
 <h2>Contact</h2>
 <p>📍 Parasia No.2, Rasra, Ballia</p>
 <p>📞 9935638345</p>
 </section>
 
-<!-- PHOTO -->
 <div style="text-align:center; padding:10px;">
 <img src="photo.jpg" style="width:120px; border-radius:50%;">
 <p><b>Director - M R Global Study</b></p>
@@ -215,7 +271,6 @@ frameborder="0" allowfullscreen></iframe>
 <p>© 2026 M R Global Study</p>
 </footer>
 
-<!-- WhatsApp -->
 <a href="https://wa.me/919935638345" target="_blank"
 style="position:fixed; bottom:20px; right:20px; background:green; color:white; padding:15px; border-radius:50%;">
 💬
