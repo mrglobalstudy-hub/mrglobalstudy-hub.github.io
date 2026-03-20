@@ -1,68 +1,12 @@
-
 <!DOCTYPE html>
 <html>
 <head>
 <title>M R Global Study</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-body {font-family: Arial; margin:0; background:#f5f5f5;}
-
-header {
-background:#007BFF;
-color:white;
-padding:15px;
-text-align:center;
-position:sticky;
-top:0;
-z-index:1000;
-}
-
-section {padding:20px;}
-
-.accordion {
-background:#007BFF;
-color:white;
-padding:12px;
-margin:8px 0;
-cursor:pointer;
-border-radius:8px;
-font-weight:bold;
-}
-
-.sub {background:#28a745;}
-
-.panel {
-display:none;
-background:white;
-padding:10px;
-border-radius:10px;
-margin-bottom:10px;
-}
-
-.subject {margin:10px 0;}
-
-.topper {
-background:#fff3cd;
-padding:10px;
-margin:10px 0;
-border-radius:10px;
-}
-
-.btn {
-background:green;
-color:white;
-padding:10px;
-border:none;
-border-radius:5px;
-}
-
-footer {
-background:#007BFF;
-color:white;
-text-align:center;
-padding:10px;
-}
+body{font-family:Arial;margin:0;}
+header{background:#007BFF;color:white;padding:15px;text-align:center;}
+.btn{background:green;color:white;padding:10px;border-radius:5px;text-decoration:none;}
 </style>
 </head>
 
@@ -70,121 +14,98 @@ padding:10px;
 
 <header>
 <h1>M R Global Study</h1>
-<p>Class 1–12 | JEE | NEET | All Competitive Exams</p>
+<p>Class 1–12 | JEE | NEET</p>
+<a href="login.html" class="btn">Student Login</a>
 </header>
 
-<section>
-<h2>Courses</h2>
+<h2 style="padding:20px;">🎓 Admission Open from 1 April</h2>
 
-<!-- CLASS 1 TO 8 -->
-<div class="accordion">Class 1 to 8</div>
-<div class="panel">
+</body>
+</html>
 
-<script>
-for(let i=1;i<=8;i++){
-document.write(`
-<div class="accordion sub">Class ${i}</div>
-<div class="panel">
+<!DOCTYPE html>
+<html>
+<body style="text-align:center;font-family:Arial;">
 
-<div class="subject">📘 Hindi - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
-<div class="subject">📗 English - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
-<div class="subject">📙 Math - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
-<div class="subject">📕 Science - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
-<div class="subject">📓 Social Science - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
-<div class="subject">📔 Grammar - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
-<div class="subject">📒 History - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
-<div class="subject">💻 Computer - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
-<div class="subject">📚 G.K - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
+<h2>Login / Signup</h2>
 
-</div>
-`);
-}
-</script>
+<input type="email" id="email" placeholder="Email"><br><br>
+<input type="password" id="pass" placeholder="Password"><br><br>
 
-</div>
+<button onclick="signup()">Signup</button>
+<button onclick="login()">Login</button>
 
-<!-- CLASS 9 TO 12 -->
-<div class="accordion">Class 9 to 12 (NCERT)</div>
-<div class="panel">
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
 <script>
-for(let i=9;i<=12;i++){
-document.write(`
-<div class="accordion sub">Class ${i}</div>
-<div class="panel">
-
-<div class="subject">📘 Math - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
-<div class="subject">📕 Physics - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
-<div class="subject">📗 Chemistry - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
-<div class="subject">📒 Biology - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
-
-</div>
-`);
-}
-</script>
-
-</div>
-
-<!-- JEE -->
-<div class="accordion">JEE Preparation</div>
-<div class="panel">
-
-<div class="subject">📘 Math - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
-<div class="subject">📕 Physics - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
-<div class="subject">📗 Chemistry - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
-
-</div>
-
-<!-- NEET -->
-<div class="accordion">NEET Preparation</div>
-<div class="panel">
-
-<div class="subject">📒 Biology - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
-<div class="subject">📕 Physics - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
-<div class="subject">📗 Chemistry - <a href="#">Notes</a> | <a href="#">Video</a> | <a href="#">Test</a></div>
-
-</div>
-
-</section>
-
-<section>
-<h2>Top Results</h2>
-<div class="topper">Rahul Kumar - 95%</div>
-<div class="topper">Anjali Singh - 92%</div>
-</section>
-
-<section>
-<h2>Demo Class Video</h2>
-<iframe width="100%" height="200"
-src="https://www.youtube.com/embed/AAfmGTVbfBg"
-frameborder="0" allowfullscreen></iframe>
-</section>
-
-<section>
-<h2>Contact</h2>
-<p>📍 Parasia No.2, Rasra, Ballia</p>
-<p>📞 9935638345</p>
-</section>
-
-<footer>
-<p>© 2026 M R Global Study</p>
-</footer>
-
-<!-- WhatsApp Button -->
-<a href="https://wa.me/919935638345" target="_blank"
-style="position:fixed; bottom:20px; right:20px; background:green; color:white; padding:15px; border-radius:50%;">
-💬
-</a>
-
-<script>
-var acc = document.getElementsByClassName("accordion");
-for (var i = 0; i < acc.length; i++) {
-acc[i].onclick = function () {
-var panel = this.nextElementSibling;
-panel.style.display = panel.style.display === "block" ? "none" : "block";
+const firebaseConfig = {
+apiKey: "PASTE_YOUR_KEY",
+authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com"
 };
+
+firebase.initializeApp(firebaseConfig);
+
+function signup(){
+firebase.auth().createUserWithEmailAndPassword(email.value, pass.value)
+.then(()=>alert("Signup Success"))
+.catch(e=>alert(e.message));
+}
+
+function login(){
+firebase.auth().signInWithEmailAndPassword(email.value, pass.value)
+.then(()=>window.location="dashboard.html")
+.catch(e=>alert(e.message));
 }
 </script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<body style="text-align:center;font-family:Arial;">
+
+<h2>Student Dashboard</h2>
+
+<p>Welcome Student 🎓</p>
+
+<a href="admin.html">Go to Admin Panel</a><br><br>
+
+<button onclick="logout()">Logout</button>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+<script>
+const firebaseConfig = {
+apiKey: "PASTE_YOUR_KEY",
+authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+firebase.auth().onAuthStateChanged(user=>{
+if(!user){
+window.location="login.html";
+}
+});
+
+function logout(){
+firebase.auth().signOut();
+}
+</script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<body style="text-align:center;font-family:Arial;">
+
+<h2>Admin Panel</h2>
+
+<p>Yaha future me student data aayega 📊</p>
 
 </body>
 </html>
