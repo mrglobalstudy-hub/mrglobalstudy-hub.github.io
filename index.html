@@ -17,12 +17,16 @@ button{width:100%;padding:10px;margin:5px 0;border:none;border-radius:8px;backgr
 .hidden{display:none}
 .video{width:100%;border-radius:10px}
 .back{background:#ff9800}
+.logout{background:red}
 </style>
 </head>
 
 <body>
 
-<div class="header"><h2>MR Global Study</h2></div>
+<div class="header">
+<h2>MR Global Study</h2>
+<button class="logout" onclick="logout()">Logout</button>
+</div>
 
 <div class="container">
 
@@ -59,30 +63,42 @@ const firebaseConfig = {
   appId: "1:313129965677:web:dc66b51b377a7005c10764",
   measurementId: "G-1GV376WRVC"
 };
+
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-// 🔥 STATE STACK (for back navigation)
+// 🔥 STATE STACK
 let stack=[];
 
-// LOGIN
+// SIGNUP
 function signup(){
 auth.createUserWithEmailAndPassword(email.value,password.value)
 .then(()=>alert("Signup Success"))
 .catch(e=>alert(e.message));
 }
 
+// LOGIN
 function login(){
 auth.signInWithEmailAndPassword(email.value,password.value)
 .catch(e=>alert(e.message));
 }
 
-// 🔥 AUTO LOGIN (refresh fix)
+// LOGOUT
+function logout(){
+auth.signOut().then(()=>{
+location.reload();
+});
+}
+
+// AUTO LOGIN (REFRESH FIX)
 auth.onAuthStateChanged(user=>{
 if(user){
 loginBox.style.display="none";
 main.classList.remove("hidden");
 showHome();
+}else{
+loginBox.style.display="block";
+main.classList.add("hidden");
 }
 });
 
@@ -109,7 +125,6 @@ clearAll();
 classes.classList.remove("hidden");
 
 let html=`<h3>${range}</h3>`;
-
 let start=range.split("-")[0];
 let end=range.split("-")[1];
 
