@@ -16,6 +16,7 @@ body{margin:0;font-family:Arial;background:#f5f5f5}
 button{width:100%;padding:10px;margin:5px 0;border:none;border-radius:8px;background:#6a11cb;color:white}
 .hidden{display:none}
 .video{width:100%;border-radius:10px}
+.back{background:#ff9800}
 </style>
 </head>
 
@@ -25,37 +26,21 @@ button{width:100%;padding:10px;margin:5px 0;border:none;border-radius:8px;backgr
 
 <div class="container">
 
-<!-- LOGIN -->
 <div id="loginBox">
 <h3>Login / Signup</h3>
 <input id="email" placeholder="Email"><br>
-<input id="password" type="password" placeholder="Password"><br>
+<input id="password" type="password"><br>
 <button onclick="signup()">Signup</button>
 <button onclick="login()">Login</button>
 </div>
 
-<!-- MAIN -->
 <div id="main" class="hidden">
+<button class="back" onclick="goBack()">⬅ Back</button>
 
-<!-- LEVEL 1 -->
-<div id="home">
-<h3>📚 Select Category</h3>
-
-<div class="card">
-<button onclick="openSection('1to8')">Class 1–8</button>
-<button onclick="openSection('9to12')">Class 9–12</button>
-<button onclick="openSection('jee')">JEE</button>
-<button onclick="openSection('neet')">NEET</button>
-</div>
-</div>
-
-<!-- LEVEL 2 -->
+<div id="home"></div>
 <div id="classes" class="hidden"></div>
-
-<!-- LEVEL 3 -->
 <div id="subjects" class="hidden"></div>
-
-<!-- LEVEL 4 -->
+<div id="chapters" class="hidden"></div>
 <div id="content" class="hidden"></div>
 
 </div>
@@ -64,7 +49,6 @@ button{width:100%;padding:10px;margin:5px 0;border:none;border-radius:8px;backgr
 
 <script>
 
-// Firebase
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBRTi1JBNkxZHb3DvJLpsyFpJDFhFN-p3w",
@@ -78,7 +62,10 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-// LOGIN SYSTEM
+// 🔥 STATE STACK (for back navigation)
+let stack=[];
+
+// LOGIN
 function signup(){
 auth.createUserWithEmailAndPassword(email.value,password.value)
 .then(()=>alert("Signup Success"))
@@ -87,98 +74,139 @@ auth.createUserWithEmailAndPassword(email.value,password.value)
 
 function login(){
 auth.signInWithEmailAndPassword(email.value,password.value)
-.then(()=>{
-loginBox.style.display="none";
-main.classList.remove("hidden");
-})
 .catch(e=>alert(e.message));
 }
 
-// LEVEL 2: CLASSES
-function openSection(type){
-home.style.display="none";
+// 🔥 AUTO LOGIN (refresh fix)
+auth.onAuthStateChanged(user=>{
+if(user){
+loginBox.style.display="none";
+main.classList.remove("hidden");
+showHome();
+}
+});
+
+// HOME
+function showHome(){
+clearAll();
+stack=[];
+home.classList.remove("hidden");
+
+home.innerHTML=`
+<h3>Select Category</h3>
+<div class="card">
+<button onclick="openClasses('1-5')">Class 1–5</button>
+<button onclick="openClasses('6-8')">Class 6–8</button>
+<button onclick="openClasses('9-10')">Class 9–10</button>
+<button onclick="openClasses('11-12')">Class 11–12</button>
+</div>`;
+}
+
+// CLASSES
+function openClasses(range){
+stack.push(showHome);
+clearAll();
 classes.classList.remove("hidden");
 
-let html="";
+let html=`<h3>${range}</h3>`;
 
-if(type=="1to8"){
-for(let i=1;i<=8;i++){
-html+=`<div class="card">
-<button onclick="openSubjects('Class ${i}')">Class ${i}</button>
-</div>`;
-}
-}
+let start=range.split("-")[0];
+let end=range.split("-")[1];
 
-if(type=="9to12"){
-for(let i=9;i<=12;i++){
+for(let i=start;i<=end;i++){
 html+=`<div class="card">
-<button onclick="openSubjects('Class ${i}')">Class ${i}</button>
-</div>`;
-}
-}
-
-if(type=="jee" || type=="neet"){
-html+=`<div class="card">
-<button onclick="openSubjects('${type.toUpperCase()}')">${type.toUpperCase()}</button>
+<button onclick="openSubjects('${i}')">Class ${i}</button>
 </div>`;
 }
 
 classes.innerHTML=html;
 }
 
-// LEVEL 3: SUBJECTS
-function openSubjects(className){
-classes.style.display="none";
+// SUBJECTS
+function openSubjects(cls){
+stack.push(()=>openClasses(cls<=5?'1-5':cls<=8?'6-8':cls<=10?'9-10':'11-12'));
+clearAll();
 subjects.classList.remove("hidden");
 
-let subs=["Maths","Science","English","Physics","Chemistry","Biology"];
+let subs=[];
 
-let html=`<h3>${className}</h3>`;
+if(cls<=5){
+subs=["Hindi","English","Math","Science","Social Study","Grammar"];
+}
+else if(cls<=8){
+subs=["Hindi","English","Math","Science","Social Study","Grammar"];
+}
+else if(cls<=10){
+subs=["Hindi","English","Math","Science","Social Science","Sanskrit"];
+}
+else{
+subs=["Physics","Math","Biology","Chemistry"];
+}
+
+let html=`<h3>Class ${cls}</h3>`;
 
 subs.forEach(s=>{
 html+=`<div class="card">
-<button onclick="openContent('${className}','${s}')">${s}</button>
+<button onclick="openChapters('${cls}','${s}')">${s}</button>
 </div>`;
 });
 
 subjects.innerHTML=html;
 }
 
-// LEVEL 4: CONTENT
-function openContent(cls,sub){
-subjects.style.display="none";
+// CHAPTERS
+function openChapters(cls,sub){
+stack.push(()=>openSubjects(cls));
+clearAll();
+chapters.classList.remove("hidden");
+
+let html=`<h3>${sub}</h3>`;
+
+for(let i=1;i<=5;i++){
+html+=`<div class="card">
+<button onclick="openContent('${cls}','${sub}','Chapter ${i}')">Chapter ${i}</button>
+</div>`;
+}
+
+chapters.innerHTML=html;
+}
+
+// CONTENT
+function openContent(cls,sub,chap){
+stack.push(()=>openChapters(cls,sub));
+clearAll();
 content.classList.remove("hidden");
 
 content.innerHTML=`
-<h3>${cls} - ${sub}</h3>
+<h3>${chap}</h3>
 
 <div class="card">
-<h4>📺 Lecture Video</h4>
+<h4>📺 Video</h4>
 <video class="video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
 </div>
 
-<div class="card">
-<h4>📄 Notes</h4>
-<button onclick="alert('Download Notes')">Download Notes</button>
-</div>
-
-<div class="card">
-<h4>📝 Homework</h4>
-<button onclick="alert('Homework Open')">Open Homework</button>
-</div>
-
-<div class="card">
-<h4>❓ Doubt</h4>
-<button onclick="alert('Ask Doubt')">Ask Doubt</button>
-</div>
-
-<div class="card">
-<h4>✅ Solution</h4>
-<button onclick="alert('View Solution')">View Solution</button>
-</div>
-
-<button onclick="location.reload()">⬅ Back</button>
+<div class="card"><button>📄 Notes</button></div>
+<div class="card"><button>📝 Homework</button></div>
+<div class="card"><button>❓ Doubt</button></div>
+<div class="card"><button>✅ Solution</button></div>
 `;
+}
+
+// BACK
+function goBack(){
+if(stack.length>0){
+let fn=stack.pop();
+fn();
+}
+}
+
+// CLEAR
+function clearAll(){
+home.classList.add("hidden");
+classes.classList.add("hidden");
+subjects.classList.add("hidden");
+chapters.classList.add("hidden");
+content.classList.add("hidden");
 }
 
 </script>
