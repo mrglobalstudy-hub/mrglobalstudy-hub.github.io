@@ -117,11 +117,16 @@ box-shadow:0 -3px 10px rgba(0,0,0,0.1);
 
 // 🔥 Firebase config
 const firebaseConfig = {
-apiKey: "YOUR_API_KEY",
-authDomain: "YOUR_PROJECT.firebaseapp.com",
-projectId: "YOUR_PROJECT"
+  apiKey: "AIzaSyBRTiJBNkxZHb3DvJLpsyFpJDFhFN-p3w",
+  authDomain: "mr-global-study.firebaseapp.com",
+  projectId: "mr-global-study",
+  storageBucket: "mr-global-study.firebasestorage.app",
+  messagingSenderId: "313129965677",
+  appId: "1:313129965677:web:67ee618116f7bdf3c10764",
+  measurementId: "G-W0ZZ0X4RE4"
 };
 
+firebase.initializeApp(firebaseConfig);
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
