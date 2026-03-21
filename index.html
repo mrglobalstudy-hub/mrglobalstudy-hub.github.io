@@ -2,9 +2,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>MR Global Study</title>
+<title>MR Global Study (PW Clone)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -17,7 +18,6 @@ body{margin:0;font-family:Arial;background:#f5f5f5}
 button{width:100%;padding:10px;margin:5px 0;border:none;border-radius:8px;background:#6a11cb;color:white}
 .hidden{display:none}
 .video{width:100%;border-radius:10px}
-.back{background:#ff9800}
 .logout{background:red}
 </style>
 </head>
@@ -31,6 +31,7 @@ button{width:100%;padding:10px;margin:5px 0;border:none;border-radius:8px;backgr
 
 <div class="container">
 
+<!-- LOGIN -->
 <div id="loginBox">
 <h3>Login / Signup</h3>
 <input id="email" placeholder="Email"><br>
@@ -39,14 +40,23 @@ button{width:100%;padding:10px;margin:5px 0;border:none;border-radius:8px;backgr
 <button onclick="login()">Login</button>
 </div>
 
+<!-- MAIN -->
 <div id="main" class="hidden">
-<button class="back" onclick="goBack()">⬅ Back</button>
 
-<div id="home"></div>
-<div id="classes" class="hidden"></div>
-<div id="subjects" class="hidden"></div>
-<div id="chapters" class="hidden"></div>
-<div id="content" class="hidden"></div>
+<h3>📚 Courses</h3>
+<div id="courseList"></div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel" class="hidden">
+<h3>👨‍💻 Admin Panel</h3>
+<input id="title" placeholder="Course Title">
+<input id="video" placeholder="Video URL">
+<select id="type">
+<option value="free">Free</option>
+<option value="paid">Paid</option>
+</select>
+<button onclick="uploadCourse()">Upload Course</button>
+</div>
 
 </div>
 
@@ -54,15 +64,11 @@ button{width:100%;padding:10px;margin:5px 0;border:none;border-radius:8px;backgr
 
 <script>
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// 🔥 FIREBASE CONFIG (APNA REAL DAL)
 const firebaseConfig = {
-  apiKey: "AIzaSyBRTi1JBNkxZHb3DvJLpsyFpJDFhFN-p3w",
+  apiKey: "PASTE_REAL_API_KEY",
   authDomain: "mr-global-study.firebaseapp.com",
-  projectId: "mr-global-study",
-  storageBucket: "mr-global-study.firebasestorage.app",
-  messagingSenderId: "313129965677",
-  appId: "1:313129965677:web:dc66b51b377a7005c10764",
-  measurementId: "G-1GV376WRVC"
+  projectId: "mr-global-study"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -70,10 +76,7 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 // 🔥 ADMIN EMAIL
-const ADMIN_EMAIL = "admin@gmail.com";
-
-// 🔥 STATE STACK
-let stack=[];
+const ADMIN = "admin@gmail.com";
 
 // SIGNUP
 function signup(){
@@ -98,11 +101,12 @@ auth.onAuthStateChanged(user=>{
 if(user){
 loginBox.style.display="none";
 main.classList.remove("hidden");
-showHome();
 
-if(user.email===ADMIN_EMAIL){
-showAdmin();
+if(user.email===ADMIN){
+adminPanel.classList.remove("hidden");
 }
+
+loadCourses();
 
 }else{
 loginBox.style.display="block";
@@ -110,53 +114,14 @@ main.classList.add("hidden");
 }
 });
 
-// 🔥 ADMIN PANEL
-function showAdmin(){
-let div=document.createElement("div");
-div.innerHTML=`
-<div class="card">
-<h3>👨‍💻 Admin Panel</h3>
-<input id="courseTitle" placeholder="Course Title">
-<input id="courseVideo" placeholder="Video URL">
-<select id="courseType">
-<option value="free">Free</option>
-<option value="paid">Paid</option>
-</select>
-<button onclick="uploadCourse()">Upload</button>
-</div>
-`;
-main.prepend(div);
-}
-
 // 🔥 UPLOAD COURSE
 function uploadCourse(){
 db.collection("courses").add({
-title: courseTitle.value,
-video: courseVideo.value,
-type: courseType.value
+title:title.value,
+video:video.value,
+type:type.value
 });
 alert("Course Uploaded ✅");
-}
-
-// HOME
-function showHome(){
-clearAll();
-stack=[];
-home.classList.remove("hidden");
-
-home.innerHTML=`
-<h3>Select Category</h3>
-<div class="card">
-<button onclick="openClasses('1-5')">Class 1–5</button>
-<button onclick="openClasses('6-8')">Class 6–8</button>
-<button onclick="openClasses('9-10')">Class 9–10</button>
-<button onclick="openClasses('11-12')">Class 11–12</button>
-</div>
-
-<h3>🔥 Courses</h3>
-<div id="courseList"></div>
-`;
-
 loadCourses();
 }
 
@@ -164,6 +129,7 @@ loadCourses();
 function loadCourses(){
 db.collection("courses").get().then(snapshot=>{
 let html="";
+
 snapshot.forEach(doc=>{
 let c=doc.data();
 
@@ -171,7 +137,7 @@ if(c.type==="paid"){
 html+=`
 <div class="card">
 <h4>${c.title}</h4>
-<button onclick="alert('Payment Required 💰')">Buy Course</button>
+<button onclick="buy()">💰 Buy Course</button>
 </div>`;
 }else{
 html+=`
@@ -180,115 +146,16 @@ html+=`
 <video class="video" controls src="${c.video}"></video>
 </div>`;
 }
-});
-document.getElementById("courseList").innerHTML=html;
-});
-}
 
-// CLASSES
-function openClasses(range){
-stack.push(showHome);
-clearAll();
-classes.classList.remove("hidden");
-
-let html=`<h3>${range}</h3>`;
-let start=range.split("-")[0];
-let end=range.split("-")[1];
-
-for(let i=start;i<=end;i++){
-html+=`<div class="card">
-<button onclick="openSubjects('${i}')">Class ${i}</button>
-</div>`;
-}
-
-classes.innerHTML=html;
-}
-
-// SUBJECTS
-function openSubjects(cls){
-stack.push(()=>openClasses(cls<=5?'1-5':cls<=8?'6-8':cls<=10?'9-10':'11-12'));
-clearAll();
-subjects.classList.remove("hidden");
-
-let subs=[];
-
-if(cls<=5){
-subs=["Hindi","English","Math","Science","Social Study","Grammar"];
-}
-else if(cls<=8){
-subs=["Hindi","English","Math","Science","Social Study","Grammar"];
-}
-else if(cls<=10){
-subs=["Hindi","English","Math","Science","Social Science","Sanskrit"];
-}
-else{
-subs=["Physics","Math","Biology","Chemistry"];
-}
-
-let html=`<h3>Class ${cls}</h3>`;
-
-subs.forEach(s=>{
-html+=`<div class="card">
-<button onclick="openChapters('${cls}','${s}')">${s}</button>
-</div>`;
 });
 
-subjects.innerHTML=html;
+courseList.innerHTML=html;
+});
 }
 
-// CHAPTERS
-function openChapters(cls,sub){
-stack.push(()=>openSubjects(cls));
-clearAll();
-chapters.classList.remove("hidden");
-
-let html=`<h3>${sub}</h3>`;
-
-for(let i=1;i<=5;i++){
-html+=`<div class="card">
-<button onclick="openContent('${cls}','${sub}','Chapter ${i}')">Chapter ${i}</button>
-</div>`;
-}
-
-chapters.innerHTML=html;
-}
-
-// CONTENT
-function openContent(cls,sub,chap){
-stack.push(()=>openChapters(cls,sub));
-clearAll();
-content.classList.remove("hidden");
-
-content.innerHTML=`
-<h3>${chap}</h3>
-
-<div class="card">
-<h4>📺 Video</h4>
-<video class="video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
-</div>
-
-<div class="card"><button>📄 Notes</button></div>
-<div class="card"><button>📝 Homework</button></div>
-<div class="card"><button>❓ Doubt</button></div>
-<div class="card"><button>✅ Solution</button></div>
-`;
-}
-
-// BACK
-function goBack(){
-if(stack.length>0){
-let fn=stack.pop();
-fn();
-}
-}
-
-// CLEAR
-function clearAll(){
-home.classList.add("hidden");
-classes.classList.add("hidden");
-subjects.classList.add("hidden");
-chapters.classList.add("hidden");
-content.classList.add("hidden");
+// 💰 PAYMENT (Demo)
+function buy(){
+alert("Razorpay connect karo next step me 💰");
 }
 
 </script>
