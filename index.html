@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html>
 <head>
 <title>MR Global Study (PW Clone)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Firebase -->
+<!-- Firebase v8 -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -16,9 +15,9 @@ body{margin:0;font-family:Arial;background:#f5f5f5}
 .container{padding:15px}
 .card{background:white;padding:15px;margin:10px 0;border-radius:12px}
 button{width:100%;padding:10px;margin:5px 0;border:none;border-radius:8px;background:#6a11cb;color:white}
-.hidden{display:none}
 .video{width:100%;border-radius:10px}
 .logout{background:red}
+.hidden{display:none}
 </style>
 </head>
 
@@ -41,7 +40,7 @@ button{width:100%;padding:10px;margin:5px 0;border:none;border-radius:8px;backgr
 </div>
 
 <!-- MAIN -->
-<div id="main" class="hidden">
+<div id="main" style="display:none;">
 
 <h3>📚 Courses</h3>
 <div id="courseList"></div>
@@ -64,38 +63,27 @@ button{width:100%;padding:10px;margin:5px 0;border:none;border-radius:8px;backgr
 
 <script>
 
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// ✅ ONLY v8 CONFIG (NO import)
 const firebaseConfig = {
   apiKey: "AIzaSyBRTi1JBNkxZHb3DvJLpsyFpJDFhFN-p3w",
   authDomain: "mr-global-study.firebaseapp.com",
   projectId: "mr-global-study",
   storageBucket: "mr-global-study.appspot.com",
   messagingSenderId: "313129965677",
-  appId: "1:313129965677:web:dc66b51b377a7005c10764",
-  measurementId: "G-1GV376WRVC"
+  appId: "1:313129965677:web:dc66b51b377a7005c10764"
 };
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// 🔥 ADMIN EMAIL
+// ADMIN EMAIL
 const ADMIN = "admin@gmail.com";
 
 // SIGNUP
 function signup(){
 auth.createUserWithEmailAndPassword(email.value,password.value)
-.then(()=>alert("Signup Success"))
+.then(()=>alert("Signup Success ✅"))
 .catch(e=>alert(e.message));
 }
 
@@ -110,31 +98,27 @@ function logout(){
 auth.signOut().then(()=>location.reload());
 }
 
-// AUTO LOGIN
+// AUTO LOGIN FIX
 auth.onAuthStateChanged(user=>{
 if(user){
 document.getElementById("loginBox").style.display="none";
-document.getElementById("main").classList.remove("hidden");
-showHome();
-}else{
-document.getElementById("loginBox").style.display="block";
-document.getElementById("main").classList.add("hidden");
-}
-});
+document.getElementById("main").style.display="block";
 
+// ADMIN CHECK
 if(user.email===ADMIN){
-adminPanel.classList.remove("hidden");
+document.getElementById("adminPanel").classList.remove("hidden");
 }
 
+// LOAD COURSES
 loadCourses();
 
 }else{
-loginBox.style.display="block";
-main.classList.add("hidden");
+document.getElementById("loginBox").style.display="block";
+document.getElementById("main").style.display="none";
 }
 });
 
-// 🔥 UPLOAD COURSE
+// UPLOAD COURSE
 function uploadCourse(){
 db.collection("courses").add({
 title:title.value,
@@ -145,7 +129,7 @@ alert("Course Uploaded ✅");
 loadCourses();
 }
 
-// 🔥 LOAD COURSES
+// LOAD COURSES
 function loadCourses(){
 db.collection("courses").get().then(snapshot=>{
 let html="";
@@ -169,13 +153,13 @@ html+=`
 
 });
 
-courseList.innerHTML=html;
+document.getElementById("courseList").innerHTML=html;
 });
 }
 
-// 💰 PAYMENT (Demo)
+// PAYMENT DEMO
 function buy(){
-alert("Razorpay connect karo next step me 💰");
+alert("Razorpay add karenge next step me 💰");
 }
 
 </script>
